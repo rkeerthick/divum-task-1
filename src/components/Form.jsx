@@ -161,6 +161,7 @@ function Form({
           <label htmlFor="dob">DOB</label>
 
           <input
+          className="display-block"
             type="date"
             name="dob"
             value={values.dob}
