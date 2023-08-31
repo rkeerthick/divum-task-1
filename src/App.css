@@ -2,6 +2,7 @@ body {
   margin: 0px;
   background-color: gray;
   font-family: 'Lato', sans-serif;
+  height: 935px;
 }
 
 nav {
@@ -9,17 +10,30 @@ nav {
   justify-content: flex-start;
   align-items: center;
   padding: 10px 30px;
+  width: 80%;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.px-18 {
-  font-size: 18px;
+.form-nav {
+  width: 60%;
+  max-width: 900px;
 }
 
 button {
   font-family: 'Lato', sans-serif;
-  border: 0px;
   padding: 10px 20px;
   font-weight: bold;
+  cursor: pointer ;
+}
+
+/* .pl-100 {
+  padding-left: 100px;
+} */
+
+.my-0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .add-btn {
@@ -28,4 +42,224 @@ button {
 
 .logo {
   width: 100px;
+}
+
+.bg-blue {
+  background-color: rgb(119, 203, 245);
+}
+
+.bg-red {
+  background-color: rgb(201, 58, 58);
+}
+
+.bg-orange {
+  background-color: rgb(252, 189, 74);
+}
+
+.px-16 {
+  font-size: 16px;
+}
+
+.px-18 {
+  font-size: 18px;
+}
+
+.px-24 {
+  font-size: 24px;
+}
+
+.px-24-bold {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-red {
+  color: red;
+}
+
+.border-none {
+  border: none;
+}
+
+.border-red {
+  border: 1px solid red;
+}
+
+.border-rds-5 {
+  border-radius: 5px;
+}
+
+.btn-pointer {
+  cursor: pointer;
+}
+
+.text-color {
+  color: white;
+}
+
+.display-hidden {
+  display: none;
+}
+
+/* form {
+  width: 700px;
+  margin: 100px auto auto auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 10px;
+  align-items: center;
+  border: 1px solid white;
+  padding: 40px;
+  background-color: rgba(237, 234, 234, 0.962);
+  border-radius: 20px;
+} */
+
+
+
+label {
+  color: black;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* input, textarea, .submit-btn {
+  width: 90%;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  font-size: 18px; */
+  /* margin-bottom: 20px; */
+/* } */
+
+input:first-of-type {
+  outline: none;
+}
+
+/* .submit-btn {
+  width: 200px; */
+  /* position: relative;
+  left: 70%; */
+  /* display: grid;
+  grid-column: 1/ span 2;
+  width: 100%; */
+  /* margin-left: auto; */
+/* } */
+
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+  max-width: 1200px;
+  margin: 100px auto auto auto;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background-color: rgb(138, 136, 134);
+}
+
+tr:nth-child(odd) {
+  background-color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+/* @media(max-width: 678px) {
+    form {
+      /* width: 70%; */
+      /* margin: 100px auto auto auto; */
+      /* display: grid;
+      grid-template-columns: 1fr ;
+      row-gap: 10px;
+      text-align: center; */
+    /* } */
+
+    /* form div {
+      text-align: start;
+    }
+
+    .add-btn {
+      position: relative;
+      left: 20px;
+    }
+
+}  */
+
+.my-form {
+  background-color: rgb(236, 236, 236);
+  width: 60%;
+  max-width: 900px;
+  margin: 100px auto;
+  border-radius: 20px;
+  box-shadow: 1px 1px 10px black;
+  padding: 40px 40px 20px 40px;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-bottom: 10px;
+  padding: auto 5px;
+}
+
+.form-group p {
+  display: grid;
+  grid-column: 2 / span 3;
+  margin: auto;
+  font-size: 16px;
+  color: red;
+}
+
+input, textarea {
+  display: grid;
+  grid-column: span 2;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 18px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.button {
+  display: grid;
+  grid-column: span 3;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 5px;
+  border: none;
+}
+
+@media(max-width: 800px) {
+  .my-form {
+    width: 50%;
+  }
+  
+  .form-group {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+  .submit-btn {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
 }
