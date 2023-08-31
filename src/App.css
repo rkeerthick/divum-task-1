@@ -220,7 +220,7 @@ tr:nth-child(even) {
 .form-group p {
   display: grid;
   grid-column: 2 / span 3;
-  margin: auto;
+  margin: auto 0px;
   font-size: 16px;
   color: red;
 }

@@ -65,12 +65,12 @@ function Form({
     }
   };
 
-  // const phoneNumberValidate = () => {
-  //   if(!validMobileNo.test(values.phoneNumber)) {
-  //     setError({...error, phoneNumber:"Invalid phone number"})
-  //   }
-  // }
-
+  const phoneNumberValidate = () => {
+    // console.log("ph",values.phoneNumber.length)
+    if (values.phoneNumber.length < 10) {
+      setError({ ...error, phoneNumber: "Invalid phone number" });
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -145,14 +145,15 @@ function Form({
           <label htmlFor="ph_no">Phone</label>
 
           <input
-            type="number"
+            type="text"
             name="ph_no"
             value={values.phoneNumber}
-            maxLength="10"
-            // onBlur={phoneNumberValidate}
-            onChange={(event) =>
-              setValues({ ...values, phoneNumber: event.target.value })
-            }
+            maxLength={10}
+            onBlur={phoneNumberValidate}
+            onChange={(event) => {
+              setValues({ ...values, phoneNumber: event.target.value });
+              // phoneNumberValidate();
+            }}
           />
           <p>{error.phoneNumber}</p>
         </div>
@@ -176,7 +177,7 @@ function Form({
             name="address"
             id=""
             cols="30"
-            rows="1"
+            rows="3"
             maxLength={50}
             value={values.address}
             onChange={(event) =>
