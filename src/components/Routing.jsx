@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import DisplayTable from "./DisplayTable";
 import Form from "./Form";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios"
+
+const apiLink = "http://localhost:8080/api/v1/employees";
 
 function Routing() {
   const [totalData, setTotalData] = useState([]);
@@ -14,6 +17,14 @@ function Routing() {
     dob: "",
     address: "",
   });
+
+  const [resultData, setResultData] = useState([]);
+  const load = async () => {
+    const result = await axios.get(apiLink + "/get");
+    // return result;
+    setTotalData(result.data);
+    setResultData(result.data);
+  };
   return (
     <BrowserRouter>
       <Routes>
@@ -28,6 +39,9 @@ function Routing() {
               setIsEdit={setIsEdit}
               totalData={totalData}
               setTotalData={setTotalData}
+              load={load}
+              resultData={resultData}
+              setResultData={setResultData}
             />
           }
         >
@@ -41,6 +55,9 @@ function Routing() {
                 setIsEdit={setIsEdit}
                 totalData={totalData}
                 setTotalData={setTotalData}
+                load={load}
+              resultData={resultData}
+              setResultData={setResultData}
               />
             }
           ></Route>
@@ -56,6 +73,7 @@ function Routing() {
               setIsEdit={setIsEdit}
               totalData={totalData}
               setTotalData={setTotalData}
+              load={load}
             />
           }
         ></Route>

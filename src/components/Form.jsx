@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DatePicker from "react-datepicker";
@@ -12,9 +12,12 @@ function Form({
   setIsEdit,
   totalData,
   setTotalData,
+  load,
 }) {
   const navigate = useNavigate();
   console.log(totalData);
+
+  // console.log(tData, "tData");
 
   console.log(new Date());
 
@@ -30,58 +33,118 @@ function Form({
     dob: "",
     address: "",
   });
-
+  useEffect(() => {
+    load();
+    // setTotalData(load().data);
+  }, []);
   const validCharregex = /^[A-Za-z]+$/;
   const validEmailregex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
   const validNameregex = /^[A-Za-z]+$/;
   const validMobileNo = /^(\d{3})[- ]?(\d{3})[- ]?(\d{4})$/;
+  const validNumber = /^[0-9]*$/;
 
   const emailValidate = () => {
-    if (values.email !== "" && validEmailregex.test(values.email)) {
-      for (let i = 0; i < totalData.length; i++) {
-        if (values.email === totalData[i].email) {
-          setError({ ...error, email: "Email ID already exists." });
-          return;
+    console.log(values);
+    if (values.email !== "") {
+      console.log("1");
+      if (validEmailregex.test(values.email)) {
+        console.log("2 ", totalData);
+        for (let i = 0; i < totalData.length; i++) {
+          console.log("3");
+          if (values.email === totalData[i].email) {
+            console.log("checking email already");
+            setError({ ...error, email: "Email ID already exists." });
+            return false;
+          }
         }
+      } else {
+        setError({ ...error, email: "Invalid Email" });
+        return false;
       }
     } else {
-      setError({ ...error, email: "Invalid email" });
-      return;
+      setError({ ...error, email: "Enter email id" });
+      return false;
     }
 
     setError({ ...error, email: "" });
+    return true;
   };
 
   const firstNameValidate = () => {
-    if (values.firstName !== "" && validCharregex.test(values.firstName)) {
-      setError({ ...error, firstName: "" });
+    if (values.firstName !== "") {
+      if (validCharregex.test(values.firstName) === false) {
+        setError({ ...error, firstName: "Enter only alphabets..." });
+        return false;
+      }
     } else {
-      setError({ ...error, firstName: "Invalid first name" });
+      setError({ ...error, firstName: "Enter first name" });
+      return false;
     }
+
+    setError({ ...error, firstName: "" });
+    return true;
   };
 
   const lastNameValidate = () => {
-    if (values.lastName !== "" && validCharregex.test(values.lastName)) {
-      setError({ ...error, lastName: "" });
+    if (values.lastName !== "") {
+      if (validCharregex.test(values.lastName) === false) {
+        setError({ ...error, firstName: "Enter only alphabets..." });
+        return false;
+      }
     } else {
-      setError({ ...error, lastName: "Invalid last name" });
+      setError({ ...error, lastName: "Enter last name" });
+      return false;
     }
+    setError({ ...error, lastName: "" });
+    return true;
   };
 
   const phoneNumberValidate = () => {
-    // console.log("ph",values.phoneNumber.length)
-    if (values.phoneNumber.length < 10) {
-      setError({ ...error, phoneNumber: "Invalid phone number" });
+    if (values.phoneNumber === "") {
+      setError({ ...error, phoneNumber: "Phone number required" });
+      return false;
+    } else if (!validMobileNo.test(values.phoneNumber)) {
+      setError({ ...error, phoneNumber: "Invalid phone number." });
+      return false;
+    } else {
+      setError({ ...error, phoneNumber: "" });
+      return true;
     }
+  };
+
+  const addressValidate = () => {
+    if (values.address.length < 1) {
+      setError({ ...error, address: "Enter your address." });
+      return false;
+    }
+    setError({ ...error, address: "" });
+    return true;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(values);
+    if (
+      !(
+        emailValidate() &&
+        firstNameValidate() &&
+        lastNameValidate() &&
+        addressValidate() &&
+        phoneNumberValidate()
+      )
+    ) {
+      alert("hello");
+      return;
+    }
+    console.log("ers ", error.email);
+    if (error.email !== "") {
+      alert("Error");
+      return;
+    }
+    console.log(error, "errors");
     console.log("yn");
     setData(values);
     if (isEdit === false) {
-      console.log("y");
+      console.log("y", values);
       await axios.post(apiLink + "/post", values);
     } else {
       console.log("n");
@@ -163,19 +226,20 @@ function Form({
         <div className="form-group">
           <label htmlFor="dob">DOB</label>
 
-          {/* <input
-          className="display-block"
+          <input
+            className="display-block"
             type="date"
             name="dob"
             value={values.dob}
             onChange={(event) =>
               setValues({ ...values, dob: event.target.value })
             }
-          /> */}
-          <DatePicker
+            max={new Date().toISOString().split("T")[0]}
+          />
+          {/* <DatePicker
             selected={values.dob}
             onChange={(dob) => setValues(dob)}
-          />
+          /> */}
 
           <p>{error.dob}</p>
         </div>
@@ -188,6 +252,7 @@ function Form({
             cols="30"
             rows="3"
             maxLength={50}
+            onBlur={addressValidate}
             value={values.address}
             onChange={(event) =>
               setValues({ ...values, address: event.target.value })

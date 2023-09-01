@@ -3,13 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { useTable } from "react-table";
 import { COLUMNS } from "./columns";
 import axios from "axios";
+import { FiEdit } from "react-icons/fi";
 
 const apiLink = "http://localhost:8080/api/v1/employees";
 
-function DisplayTable({ values, setValues, isEdit, setIsEdit, totalData, setTotalData }) {
+function DisplayTable({
+  values,
+  setValues,
+  isEdit,
+  setIsEdit,
+  totalData,
+  setTotalData,
+  load,
+  resultData,
+}) {
   const navigate = useNavigate();
 
-  const [resultData, setResultData] = useState([]);
+  // const [resultData, setResultData] = useState([]);
 
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => resultData, [resultData]);
@@ -22,11 +32,11 @@ function DisplayTable({ values, setValues, isEdit, setIsEdit, totalData, setTota
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
 
-  const load = async () => {
-    const result = await axios.get(apiLink + "/get");
-    setResultData(result.data);
-    setTotalData(result.data);
-  };
+  // const load = async () => {
+  //   const result = await axios.get(apiLink + "/get");
+  //   setResultData(result.data);
+  //   setTotalData(result.data);
+  // };
 
   useEffect(() => {
     load();
