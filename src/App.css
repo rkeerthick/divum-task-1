@@ -1,6 +1,6 @@
 body {
   margin: 0px;
-  background-color: gray;
+  background-color: rgb(207, 205, 205);
   font-family: 'Lato', sans-serif;
   height: 935px;
 }
@@ -172,7 +172,7 @@ td, th {
 }
 
 th {
-  background-color: rgb(138, 136, 134);
+  background-color: rgb(255, 243, 243);
 }
 
 tr:nth-child(odd) {
@@ -229,13 +229,19 @@ tr:nth-child(even) {
   color: red;
 }
 
-input, textarea {
+input, textarea, .react-datepicker-wrapper {
   display: grid;
   grid-column: span 2;
   padding: 10px;
   border-radius: 5px;
   border: none;
   font-size: 18px;
+}
+
+.react-datepicker-wrapper {
+  display: block;
+  width: 100%;
+  grid-column: 2 / span 3;
 }
 
 input:focus {
@@ -252,13 +258,25 @@ input:focus {
 }
 
 @media(max-width: 800px) {
+  label {
+    font-size: 18px;
+    padding-bottom: 4px;
+  }
+
+  input, textarea, DatePicker {
+    width: 90%;
+    padding-bottom: 4px;
+  }
+
   .my-form {
-    width: 50%;
+    width: 60%;
+    margin: auto;
   }
   
   .form-group {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
   .submit-btn {

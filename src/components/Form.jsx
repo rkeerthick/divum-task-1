@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 function Form({
   values,
@@ -91,7 +94,7 @@ function Form({
   return (
     <div>
       <nav className="form-nav">
-        <img className="logo" src="./Divum_Logo.png" alt="Logo" />
+        <img className="logo" src="./Divum_Logo_Color.png" alt="Logo" />
         {/* <button
           onClick={() => navigate("/display_table")}
           className="add-btn px-18 btn-pointer border-none border-rds-5"
@@ -100,7 +103,7 @@ function Form({
         </button> */}
       </nav>
       <form className="my-form" action="">
-        <div className="form-group px-24 pl-100">
+        <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -114,7 +117,7 @@ function Form({
           />
           <p>{error.email}</p>
         </div>
-        <div className="form-group px-24 pl-100">
+        <div className="form-group">
           <label htmlFor="first_name">First Name</label>
           <input
             type="text"
@@ -127,7 +130,7 @@ function Form({
           />
           <p>{error.firstName}</p>
         </div>
-        <div className="form-group px-24 pl-100">
+        <div className="form-group">
           <label htmlFor="last_name">Last Name</label>
           <input
             type="text"
@@ -141,7 +144,7 @@ function Form({
           />
           <p>{error.lastName}</p>
         </div>
-        <div className="form-group px-24 pl-100">
+        <div className="form-group">
           <label htmlFor="ph_no">Phone</label>
 
           <input
@@ -157,10 +160,10 @@ function Form({
           />
           <p>{error.phoneNumber}</p>
         </div>
-        <div className="form-group px-24 pl-100">
+        <div className="form-group">
           <label htmlFor="dob">DOB</label>
 
-          <input
+          {/* <input
           className="display-block"
             type="date"
             name="dob"
@@ -168,10 +171,15 @@ function Form({
             onChange={(event) =>
               setValues({ ...values, dob: event.target.value })
             }
+          /> */}
+          <DatePicker
+            selected={values.dob}
+            onChange={(dob) => setValues(dob)}
           />
+
           <p>{error.dob}</p>
         </div>
-        <div className="form-group px-24 pl-100">
+        <div className="form-group">
           <label htmlFor="address">Address</label>
 
           <textarea

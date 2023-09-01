@@ -35,7 +35,7 @@ function DisplayTable({ values, setValues, isEdit, setIsEdit, totalData, setTota
   return (
     <div>
       <nav>
-        <img className="logo" src="./Divum_Logo.png" alt="Logo" />
+        <img className="logo" src="./Divum_Logo_Color.png" alt="Logo" />
         <button
           onClick={() => navigate("/form")}
           className="add-btn px-18 btn-pointer border-none border-rds-5"
