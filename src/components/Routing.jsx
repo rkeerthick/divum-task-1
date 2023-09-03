@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import DisplayTable from "./DisplayTable";
 import Form from "./Form";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 
 const apiLink = "http://localhost:8080/api/v1/employees";
 
 function Routing() {
   const [totalData, setTotalData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [userAdded, setUserAdded] = useState(false);
   const [values, setValues] = useState({
     email: "",
     firstName: "",
@@ -42,6 +43,8 @@ function Routing() {
               load={load}
               resultData={resultData}
               setResultData={setResultData}
+              userAdded={userAdded}
+              setUserAdded={setUserAdded}
             />
           }
         >
@@ -56,8 +59,10 @@ function Routing() {
                 totalData={totalData}
                 setTotalData={setTotalData}
                 load={load}
-              resultData={resultData}
-              setResultData={setResultData}
+                resultData={resultData}
+                setResultData={setResultData}
+                userAdded={userAdded}
+                setUserAdded={setUserAdded}
               />
             }
           ></Route>
@@ -74,6 +79,8 @@ function Routing() {
               totalData={totalData}
               setTotalData={setTotalData}
               load={load}
+              userAdded={userAdded}
+              setUserAdded={setUserAdded}
             />
           }
         ></Route>

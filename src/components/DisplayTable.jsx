@@ -1,9 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTable } from "react-table";
 import { COLUMNS } from "./columns";
 import axios from "axios";
-import { FiEdit } from "react-icons/fi";
+import { BsPersonFillAdd } from "react-icons/bs";
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./Modal.css";
+
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const apiLink = "http://localhost:8080/api/v1/employees";
 
@@ -16,8 +24,14 @@ function DisplayTable({
   setTotalData,
   load,
   resultData,
+  userAdded,
+  setUserAdded,
 }) {
   const navigate = useNavigate();
+  const locate = useLocation();
+
+  const receivedData = locate.state;
+  // console.log(receivedData, "recieved data");
 
   // const [resultData, setResultData] = useState([]);
 
@@ -40,18 +54,73 @@ function DisplayTable({
 
   useEffect(() => {
     load();
+    if (userAdded) {
+      toast.success("Successfully added", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    setUserAdded(false);
   }, []);
+
+  const [modal, setModal] = useState(false);
+
+  const [deleteMail, setDeleteMail] = useState("");
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  if (modal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
 
   return (
     <div>
+      {modal && (
+        <div className="modal">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modal-content">
+            <h2 className="text-red">Delete User!!!</h2>
+            <p>Do you want to delete the user ?</p>
+            <button className="cancel-btn cancel-modal" onClick={toggleModal}>
+              No
+            </button>
+            <button
+              className="delete-btn delete-modal"
+              onClick={async () => {
+                await axios.delete(apiLink + "/delete/email=" + deleteMail);
+                load();
+                toggleModal();
+                setDeleteMail("");
+              }}
+              // onClick={() => console.log(deleteMail)}
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      )}
       <nav>
         <img className="logo" src="./Divum_Logo_Color.png" alt="Logo" />
-        <button
+        {/* <button
           onClick={() => navigate("/form")}
           className="add-btn px-18 btn-pointer border-none border-rds-5"
         >
           Add +{" "}
-        </button>
+        </button> */}
+        <BsPersonFillAdd
+          onClick={() => navigate("/form")}
+          className="add-icon add-btn btn-pointer"
+        />
       </nav>
       <div>
         <table {...getTableProps()}>
@@ -78,7 +147,7 @@ function DisplayTable({
                     );
                   })}
                   <td>
-                    <button
+                    {/* <button
                       className="bg-blue border-none border-rds-5"
                       onClick={() => {
                         setValues(row.original);
@@ -88,10 +157,19 @@ function DisplayTable({
                       }}
                     >
                       Edit
-                    </button>
+                    </button> */}
+                    <FaEdit
+                      className="icon btn-pointer"
+                      onClick={() => {
+                        setValues(row.original);
+                        setIsEdit(true);
+                        navigate("/form");
+                        // console.log(values);
+                      }}
+                    />
                   </td>
                   <td>
-                    <button
+                    {/* <button
                       className="bg-red border-none border-rds-5"
                       onClick={async () => {
                         await axios.delete(
@@ -101,13 +179,38 @@ function DisplayTable({
                       }}
                     >
                       Delete
-                    </button>
+                    </button> */}
+                    <RiDeleteBin6Line
+                      className="icon btn-pointer"
+                      // onClick={async () => {
+                      //   await axios.delete(
+                      //     apiLink + "/delete/email=" + row.original.email
+                      //   );
+                      //   load();
+                      // }}
+                      onClick={() => {
+                        setDeleteMail(row.original.email);
+                        toggleModal();
+                      }}
+                    />
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </div>
   );

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import { FaSave } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -13,17 +16,20 @@ function Form({
   totalData,
   setTotalData,
   load,
+  setUserAdded,
 }) {
   const navigate = useNavigate();
-  console.log(totalData);
+  // console.log(totalData);
 
   // console.log(tData, "tData");
 
-  console.log(new Date());
+  // console.log(new Date());
 
   const apiLink = "http://localhost:8080/api/v1/employees";
 
   const [data, setData] = useState({});
+
+  const [readOnly, setReadOnly] = useState(false);
 
   const [error, setError] = useState({
     email: "",
@@ -33,10 +39,17 @@ function Form({
     dob: "",
     address: "",
   });
+
+  // if (isEdit === true) {
+  //   setReadOnly(true);
+  // }
+
   useEffect(() => {
     load();
+    isEdit ? setReadOnly(true) : setReadOnly(false)
     // setTotalData(load().data);
   }, []);
+
   const validCharregex = /^[A-Za-z]+$/;
   const validEmailregex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
   const validNameregex = /^[A-Za-z]+$/;
@@ -45,25 +58,27 @@ function Form({
 
   const emailValidate = () => {
     console.log(values);
-    if (values.email !== "") {
-      console.log("1");
-      if (validEmailregex.test(values.email)) {
-        console.log("2 ", totalData);
-        for (let i = 0; i < totalData.length; i++) {
-          console.log("3");
-          if (values.email === totalData[i].email) {
-            console.log("checking email already");
-            setError({ ...error, email: "Email ID already exists." });
-            return false;
+    if (isEdit === false) {
+      if (values.email !== "") {
+        console.log("1");
+        if (validEmailregex.test(values.email)) {
+          console.log("2 ", totalData);
+          for (let i = 0; i < totalData.length; i++) {
+            console.log("3");
+            if (values.email === totalData[i].email) {
+              console.log("checking email already");
+              setError({ ...error, email: "Email ID already exists." });
+              return false;
+            }
           }
+        } else {
+          setError({ ...error, email: "Invalid Email" });
+          return false;
         }
       } else {
-        setError({ ...error, email: "Invalid Email" });
+        setError({ ...error, email: "Enter email id" });
         return false;
       }
-    } else {
-      setError({ ...error, email: "Enter email id" });
-      return false;
     }
 
     setError({ ...error, email: "" });
@@ -101,13 +116,23 @@ function Form({
 
   const phoneNumberValidate = () => {
     if (values.phoneNumber === "") {
-      setError({ ...error, phoneNumber: "Phone number required" });
+      setError({ ...error, phoneNumber: "Enter phone number" });
       return false;
     } else if (!validMobileNo.test(values.phoneNumber)) {
       setError({ ...error, phoneNumber: "Invalid phone number." });
       return false;
     } else {
       setError({ ...error, phoneNumber: "" });
+      return true;
+    }
+  };
+
+  const dateValidate = () => {
+    if (values.dob === "") {
+      setError({ ...error, dob: "Enter date of birth" });
+      return false;
+    } else {
+      setError({ ...error, dob: "" });
       return true;
     }
   };
@@ -121,6 +146,18 @@ function Form({
     return true;
   };
 
+  const notify = () =>
+    toast.error("Enter the feilds", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (
@@ -132,7 +169,7 @@ function Form({
         phoneNumberValidate()
       )
     ) {
-      alert("hello");
+      notify();
       return;
     }
     console.log("ers ", error.email);
@@ -141,16 +178,25 @@ function Form({
       return;
     }
     console.log(error, "errors");
-    console.log("yn");
+    // console.log("yn");
     setData(values);
     if (isEdit === false) {
       console.log("y", values);
+      setUserAdded(true);
       await axios.post(apiLink + "/post", values);
     } else {
       console.log("n");
       setIsEdit(false);
       await axios.put(apiLink + "/update/email=" + values.email, values);
     }
+    setValues({
+      email: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      dob: "",
+      address: "",
+    });
     navigate(-1);
   };
 
@@ -172,6 +218,7 @@ function Form({
             type="email"
             name="email"
             id="email"
+            readOnly={readOnly}
             value={values.email}
             onBlur={emailValidate}
             onChange={(event) => {
@@ -231,6 +278,7 @@ function Form({
             type="date"
             name="dob"
             value={values.dob}
+            onBlur={dateValidate}
             onChange={(event) =>
               setValues({ ...values, dob: event.target.value })
             }
@@ -265,7 +313,20 @@ function Form({
           onClick={handleSubmit}
         >
           Submit
+          {/* <FaSave /> */}
         </button>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </form>
     </div>
   );

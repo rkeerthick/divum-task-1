@@ -3,6 +3,7 @@ body {
   background: linear-gradient(to top right, #facfd0, #c4f1f8, #f2d1a8, #eaffde, #9198e5);
   font-family: 'Lato', sans-serif;
   height: 100vh;
+  background-repeat: no-repeat;
 }
 
 nav {
@@ -30,6 +31,18 @@ button {
 /* .pl-100 {
   padding-left: 100px;
 } */
+
+.z-1 {
+  z-index: -1;
+}
+
+.add-icon {
+  font-size: 30px;
+}
+
+.icon {
+  font-size: 24px;
+}
 
 .display-block {
   display: block;
