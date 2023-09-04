@@ -59,7 +59,7 @@ button {
 }
 
 .add-btn {
-  /* margin-left: auto; */
+  margin-left: auto;
 }
 
 .logo {
@@ -193,8 +193,8 @@ tr:nth-child(even) {
 }
 
 input,
-textarea,
-.react-datepicker-wrapper {
+textarea {
+  font-family: Arial, Helvetica, sans-serif;
   display: grid;
   grid-column: span 2;
   padding: 10px;

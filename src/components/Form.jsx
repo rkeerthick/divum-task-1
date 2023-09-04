@@ -153,6 +153,10 @@ function Form({
       theme: "dark",
     });
 
+    const handleLogoClick = () => {
+      navigate("/");
+    }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (
@@ -201,7 +205,7 @@ function Form({
   return (
     <div>
       <nav className="form-nav">
-        <img className="logo" src="./Divum_Logo_Color.png" alt="Logo" />
+        <img className="logo btn-pointer" src="./Divum_Logo_Color.png" alt="Logo" onClick={handleLogoClick} />
         {/* <button
           onClick={() => navigate("/display_table")}
           className="add-btn px-18 btn-pointer border-none border-rds-5"
@@ -310,7 +314,7 @@ function Form({
           className="button bg-orange px-24-bold btn-pointer"
           onClick={handleSubmit}
         >
-          Submit
+          {isEdit ? "Update" : "Submit"}
           {/* <FaSave /> */}
         </button>
         <ToastContainer
