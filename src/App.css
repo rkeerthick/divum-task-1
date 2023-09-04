@@ -16,6 +16,15 @@ nav {
   margin: auto;
 }
 
+.title {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 48px;
+    font-family: fantasy;
+    margin-top: 3rem;
+    color: rgb(85, 137, 85);
+}
+
 .form-nav {
   width: 60%;
   max-width: 900px;
@@ -25,12 +34,8 @@ button {
   font-family: 'Lato', sans-serif;
   padding: 10px 20px;
   font-weight: bold;
-  cursor: pointer ;
+  cursor: pointer;
 }
-
-/* .pl-100 {
-  padding-left: 100px;
-} */
 
 .z-1 {
   z-index: -1;
@@ -54,7 +59,7 @@ button {
 }
 
 .add-btn {
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 
 .logo {
@@ -122,21 +127,6 @@ button {
   display: none;
 }
 
-/* form {
-  width: 700px;
-  margin: 100px auto auto auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  row-gap: 10px;
-  align-items: center;
-  border: 1px solid white;
-  padding: 40px;
-  background-color: rgba(237, 234, 234, 0.962);
-  border-radius: 20px;
-} */
-
-
-
 label {
   color: black;
   display: flex;
@@ -145,29 +135,9 @@ label {
   font-weight: bold;
 }
 
-/* input, textarea, .submit-btn {
-  width: 90%;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: none;
-  font-size: 18px; */
-  /* margin-bottom: 20px; */
-/* } */
-
 input:first-of-type {
   outline: none;
 }
-
-/* .submit-btn {
-  width: 200px; */
-  /* position: relative;
-  left: 70%; */
-  /* display: grid;
-  grid-column: 1/ span 2;
-  width: 100%; */
-  /* margin-left: auto; */
-/* } */
-
 
 table {
   font-family: arial, sans-serif;
@@ -177,7 +147,8 @@ table {
   margin: 100px auto auto auto;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 12px;
@@ -195,27 +166,6 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
-/* @media(max-width: 678px) {
-    form {
-      /* width: 70%; */
-      /* margin: 100px auto auto auto; */
-      /* display: grid;
-      grid-template-columns: 1fr ;
-      row-gap: 10px;
-      text-align: center; */
-    /* } */
-
-    /* form div {
-      text-align: start;
-    }
-
-    .add-btn {
-      position: relative;
-      left: 20px;
-    }
-
-}  */
 
 .my-form {
   background-color: rgb(236 217 217);
@@ -242,7 +192,9 @@ tr:nth-child(even) {
   color: red;
 }
 
-input, textarea, .react-datepicker-wrapper {
+input,
+textarea,
+.react-datepicker-wrapper {
   display: grid;
   grid-column: span 2;
   padding: 10px;
@@ -276,7 +228,9 @@ input:focus {
     padding-bottom: 4px;
   }
 
-  input, textarea, DatePicker {
+  input,
+  textarea,
+  DatePicker {
     width: 90%;
     padding-bottom: 4px;
   }
@@ -285,12 +239,12 @@ input:focus {
     width: 60%;
     margin: auto;
   }
-  
+
   .form-group {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 
   .submit-btn {
     margin-left: auto;

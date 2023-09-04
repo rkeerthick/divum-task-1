@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import DatePicker from "react-datepicker";
-import { FaSave } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,6 +15,7 @@ function Form({
   setTotalData,
   load,
   setUserAdded,
+  setUserEdited
 }) {
   const navigate = useNavigate();
   // console.log(totalData);
@@ -39,10 +38,6 @@ function Form({
     dob: "",
     address: "",
   });
-
-  // if (isEdit === true) {
-  //   setReadOnly(true);
-  // }
 
   useEffect(() => {
     load();
@@ -183,10 +178,13 @@ function Form({
     if (isEdit === false) {
       console.log("y", values);
       setUserAdded(true);
+      // setValues({ ...values, updatedDate: new Date().toISOString().split("T")[0] })
       await axios.post(apiLink + "/post", values);
     } else {
       console.log("n");
+      setUserEdited(true);
       setIsEdit(false);
+      // setValues({ ...values, updatedDate: new Date().toISOString().split("T")[0] })
       await axios.put(apiLink + "/update/email=" + values.email, values);
     }
     setValues({

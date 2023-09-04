@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DisplayTable from "./DisplayTable";
 import Form from "./Form";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -8,8 +8,10 @@ const apiLink = "http://localhost:8080/api/v1/employees";
 
 function Routing() {
   const [totalData, setTotalData] = useState([]);
+  const [totalTenData, setTotalTenData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [userAdded, setUserAdded] = useState(false);
+  const [userEdited, setUserEdited] = useState(false);
   const [values, setValues] = useState({
     email: "",
     firstName: "",
@@ -17,17 +19,26 @@ function Routing() {
     phoneNumber: "",
     dob: "",
     address: "",
+    updatedDate: "",
   });
 
   const [resultData, setResultData] = useState([]);
+
+  const displayLoad = async () => {
+    const result = await axios.get(apiLink + "/get10/0/10");
+    setTotalTenData(result.data);
+    setResultData(result.data.content);
+  };
+
   const load = async () => {
     const result = await axios.get(apiLink + "/get");
     // return result;
     setTotalData(result.data);
-    setResultData(result.data);
+    // setResultData(result.data);
   };
+
   return (
-    <BrowserRouter>
+    // <BrowserRouter>
       <Routes>
         <Route
           exact
@@ -45,10 +56,15 @@ function Routing() {
               setResultData={setResultData}
               userAdded={userAdded}
               setUserAdded={setUserAdded}
+              userEdited={userEdited}
+              setUserEdited={setUserEdited}
+              displayLoad={displayLoad}
+              totalTenData={totalTenData}
+              setTotalTenData={setTotalTenData}
             />
           }
         >
-          <Route
+          {/* <Route
             path="/display_table"
             element={
               <DisplayTable
@@ -63,9 +79,14 @@ function Routing() {
                 setResultData={setResultData}
                 userAdded={userAdded}
                 setUserAdded={setUserAdded}
+                userEdited={userEdited}
+                setUserEdited={setUserEdited}
+                displayLoad={displayLoad}
+                totalTenData={totalTenData}
+                setTotalTenData={setTotalTenData}
               />
             }
-          ></Route>
+          ></Route> */}
         </Route>
         <Route
           exact
@@ -81,11 +102,13 @@ function Routing() {
               load={load}
               userAdded={userAdded}
               setUserAdded={setUserAdded}
+              userEdited={userEdited}
+              setUserEdited={setUserEdited}
             />
           }
         ></Route>
       </Routes>
-    </BrowserRouter>
+    // </BrowserRouter>
   );
 }
 

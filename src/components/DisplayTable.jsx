@@ -26,6 +26,10 @@ function DisplayTable({
   resultData,
   userAdded,
   setUserAdded,
+  userEdited,
+  setUserEdited,
+
+  displayLoad,
 }) {
   const navigate = useNavigate();
   const locate = useLocation();
@@ -34,6 +38,8 @@ function DisplayTable({
   // console.log(receivedData, "recieved data");
 
   // const [resultData, setResultData] = useState([]);
+  console.log(resultData, "result data");
+  console.log("displaytable")
 
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => resultData, [resultData]);
@@ -53,9 +59,10 @@ function DisplayTable({
   // };
 
   useEffect(() => {
-    load();
+    // load();
+    displayLoad();
     if (userAdded) {
-      toast.success("Successfully added", {
+      toast.success("Successfully added!!!", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -65,7 +72,19 @@ function DisplayTable({
         progress: undefined,
         theme: "light",
       });
+    } else if (userEdited) {
+      toast.success("Successfully updated!!!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
+    setUserEdited(false);
     setUserAdded(false);
   }, []);
 
@@ -98,7 +117,7 @@ function DisplayTable({
               className="delete-btn delete-modal"
               onClick={async () => {
                 await axios.delete(apiLink + "/delete/email=" + deleteMail);
-                load();
+                displayLoad();
                 toggleModal();
                 setDeleteMail("");
               }}
@@ -117,6 +136,7 @@ function DisplayTable({
         >
           Add +{" "}
         </button> */}
+        <h1 className="title">Employee Table</h1>
         <BsPersonFillAdd
           onClick={() => navigate("/form")}
           className="add-icon add-btn btn-pointer"
