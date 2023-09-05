@@ -137,6 +137,7 @@ function DisplayTable({
           Add +{" "}
         </button> */}
         <BsPersonFillAdd
+          data-testid="add-btn"
           onClick={() => navigate("/form")}
           className="add-icon add-btn btn-pointer"
         />

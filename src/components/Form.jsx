@@ -220,6 +220,7 @@ function Form({
             type="email"
             name="email"
             id="email"
+            data-testid="email"
             readOnly={readOnly}
             value={values.email}
             onBlur={emailValidate}
@@ -227,7 +228,7 @@ function Form({
               setValues({ ...values, email: event.target.value });
             }}
           />
-          <p>{error.email}</p>
+          <p data-testid="email-error-msg">{error.email}</p>
         </div>
         <div className="form-group">
           <label htmlFor="first_name">First Name</label>
@@ -313,6 +314,7 @@ function Form({
         <button
           className="button bg-orange px-24-bold btn-pointer"
           onClick={handleSubmit}
+          data-testid="submit"
         >
           {isEdit ? "Update" : "Submit"}
           {/* <FaSave /> */}
