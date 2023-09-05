@@ -26,14 +26,18 @@ function Routing() {
 
   const displayLoad = async () => {
     const result = await axios.get(apiLink + "/get10/0/10");
+    if(result != undefined) {
     setTotalTenData(result.data);
     setResultData(result.data.content);
+
+    }
   };
 
   const load = async () => {
     const result = await axios.get(apiLink + "/get");
     // return result;
-    setTotalData(result.data);
+    if(result !== undefined)
+      setTotalData(result.data);
     // setResultData(result.data);
   };
 

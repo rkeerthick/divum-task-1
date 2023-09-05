@@ -15,7 +15,7 @@ function Form({
   setTotalData,
   load,
   setUserAdded,
-  setUserEdited
+  setUserEdited,
 }) {
   const navigate = useNavigate();
   // console.log(totalData);
@@ -32,7 +32,7 @@ function Form({
 
   const [error, setError] = useState({
     email: "",
-    password: "",
+    phoneNumber: "",
     firstName: "",
     lastName: "",
     dob: "",
@@ -41,7 +41,7 @@ function Form({
 
   useEffect(() => {
     load();
-    isEdit ? setReadOnly(true) : setReadOnly(false)
+    isEdit ? setReadOnly(true) : setReadOnly(false);
     // setTotalData(load().data);
   }, []);
 
@@ -64,6 +64,8 @@ function Form({
               console.log("checking email already");
               setError({ ...error, email: "Email ID already exists." });
               return false;
+            } else {
+              setError({ ...error, email: "" });
             }
           }
         } else {
@@ -98,7 +100,7 @@ function Form({
   const lastNameValidate = () => {
     if (values.lastName !== "") {
       if (validCharregex.test(values.lastName) === false) {
-        setError({ ...error, firstName: "Enter only alphabets..." });
+        setError({ ...error, lastName: "Enter only alphabets..." });
         return false;
       }
     } else {
@@ -110,16 +112,17 @@ function Form({
   };
 
   const phoneNumberValidate = () => {
-    if (values.phoneNumber === "") {
+    if (values.phoneNumber !== "") {
+      if (validMobileNo.test(values.phoneNumber) === false) {
+        setError({ ...error, phoneNumber: "Invalid phone number." });
+        return false;
+      }
+    } else {
       setError({ ...error, phoneNumber: "Enter phone number" });
       return false;
-    } else if (!validMobileNo.test(values.phoneNumber)) {
-      setError({ ...error, phoneNumber: "Invalid phone number." });
-      return false;
-    } else {
-      setError({ ...error, phoneNumber: "" });
-      return true;
     }
+    setError({ ...error, phoneNumber: "" });
+    return true;
   };
 
   const dateValidate = () => {
@@ -153,12 +156,13 @@ function Form({
       theme: "dark",
     });
 
-    const handleLogoClick = () => {
-      navigate("/");
-    }
+  const handleLogoClick = () => {
+    navigate("/");
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(error, "error");
     if (
       !(
         emailValidate() &&
@@ -205,7 +209,12 @@ function Form({
   return (
     <div>
       <nav className="form-nav">
-        <img className="logo btn-pointer" src="./Divum_Logo_Color.png" alt="Logo" onClick={handleLogoClick} />
+        <img
+          className="logo btn-pointer"
+          src="./Divum_Logo_Color.png"
+          alt="Logo"
+          onClick={handleLogoClick}
+        />
         {/* <button
           onClick={() => navigate("/display_table")}
           className="add-btn px-18 btn-pointer border-none border-rds-5"
@@ -235,13 +244,14 @@ function Form({
           <input
             type="text"
             name="first_name"
+            data-testid="firstName"
             value={values.firstName}
             onBlur={firstNameValidate}
             onChange={(event) =>
               setValues({ ...values, firstName: event.target.value })
             }
           />
-          <p>{error.firstName}</p>
+          <p data-testid="firstName-error-msg">{error.firstName}</p>
         </div>
         <div className="form-group">
           <label htmlFor="last_name">Last Name</label>
@@ -249,13 +259,14 @@ function Form({
             type="text"
             id="last_name"
             name="last_name"
+            data-testid="lastName"
             value={values.lastName}
             onBlur={lastNameValidate}
             onChange={(event) => {
               setValues({ ...values, lastName: event.target.value });
             }}
           />
-          <p>{error.lastName}</p>
+          <p data-testid="lastName-error-msg">{error.lastName}</p>
         </div>
         <div className="form-group">
           <label htmlFor="ph_no">Phone</label>
@@ -263,15 +274,16 @@ function Form({
           <input
             type="text"
             name="ph_no"
+            data-testid="phoneNumber"
             value={values.phoneNumber}
             maxLength={10}
             onBlur={phoneNumberValidate}
             onChange={(event) => {
               setValues({ ...values, phoneNumber: event.target.value });
-              // phoneNumberValidate();
+              // phoneNuamberValidate();
             }}
           />
-          <p>{error.phoneNumber}</p>
+          <p data-testid="phNo-error-msg">{error.phoneNumber}</p>
         </div>
         <div className="form-group">
           <label htmlFor="dob">DOB</label>
@@ -280,6 +292,7 @@ function Form({
             className="display-block"
             type="date"
             name="dob"
+            data-testid="dob"
             value={values.dob}
             onBlur={dateValidate}
             onChange={(event) =>
@@ -292,7 +305,7 @@ function Form({
             onChange={(dob) => setValues(dob)}
           /> */}
 
-          <p>{error.dob}</p>
+          <p data-testid="dob-error-msg">{error.dob}</p>
         </div>
         <div className="form-group">
           <label htmlFor="address">Address</label>

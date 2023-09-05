@@ -84,8 +84,9 @@ function DisplayTable({
         theme: "dark",
       });
     }
-    setUserEdited(false);
-    setUserAdded(false);
+      setUserEdited(false);
+      setUserAdded(false);
+    
   }, []);
 
   const [modal, setModal] = useState(false);
