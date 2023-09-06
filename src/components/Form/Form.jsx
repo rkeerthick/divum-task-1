@@ -112,17 +112,15 @@ function Form({
   };
 
   const phoneNumberValidate = () => {
-    if (values.phoneNumber !== "") {
-      if (validMobileNo.test(values.phoneNumber) === false) {
-        setError({ ...error, phoneNumber: "Invalid phone number." });
-        return false;
-      }
-    } else {
+    if (values.phoneNumber === "") {
       setError({ ...error, phoneNumber: "Enter phone number" });
-      return false;
+    } else if (!validMobileNo.test(values.phoneNumber)) {
+      setError({ ...error, phoneNumber: "Invalid phone number." });
+    } else {
+      setError({ ...error, phoneNumber: "" });
+      return true;
     }
-    setError({ ...error, phoneNumber: "" });
-    return true;
+    return false;
   };
 
   const dateValidate = () => {
@@ -136,7 +134,7 @@ function Form({
   };
 
   const addressValidate = () => {
-    if (values.address.length < 1) {
+    if (values.address === "") {
       setError({ ...error, address: "Enter your address." });
       return false;
     }
@@ -163,6 +161,7 @@ function Form({
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(error, "error");
+    console.log(error.phoneNumber, "error-phonenumber");
     if (
       !(
         emailValidate() &&
@@ -210,7 +209,7 @@ function Form({
     <div>
       <nav className="form-nav">
         <img
-          className="logo btn-pointer"
+          className="logo btn-  pointer"
           src="./Divum_Logo_Color.png"
           alt="Logo"
           onClick={handleLogoClick}
@@ -232,6 +231,7 @@ function Form({
             data-testid="email"
             readOnly={readOnly}
             value={values.email}
+            placeholder="Enter your email"
             onBlur={emailValidate}
             onChange={(event) => {
               setValues({ ...values, email: event.target.value });
@@ -246,6 +246,7 @@ function Form({
             name="first_name"
             data-testid="firstName"
             value={values.firstName}
+            placeholder="Enter you first name"
             onBlur={firstNameValidate}
             onChange={(event) =>
               setValues({ ...values, firstName: event.target.value })
@@ -261,6 +262,7 @@ function Form({
             name="last_name"
             data-testid="lastName"
             value={values.lastName}
+            placeholder="Enter your last name"
             onBlur={lastNameValidate}
             onChange={(event) => {
               setValues({ ...values, lastName: event.target.value });
@@ -270,19 +272,20 @@ function Form({
         </div>
         <div className="form-group">
           <label htmlFor="ph_no">Phone</label>
-
           <input
             type="text"
             name="ph_no"
             data-testid="phoneNumber"
             value={values.phoneNumber}
+            placeholder="Enter your phone number"
             maxLength={10}
             onBlur={phoneNumberValidate}
             onChange={(event) => {
               setValues({ ...values, phoneNumber: event.target.value });
-              // phoneNuamberValidate();
+              // phoneNumberValidate();
             }}
           />
+          {console.log("error", error.phoneNumber)}
           <p data-testid="phNo-error-msg">{error.phoneNumber}</p>
         </div>
         <div className="form-group">
@@ -294,6 +297,7 @@ function Form({
             name="dob"
             data-testid="dob"
             value={values.dob}
+            placeholder="Enter your DOB"
             onBlur={dateValidate}
             onChange={(event) =>
               setValues({ ...values, dob: event.target.value })
@@ -317,6 +321,7 @@ function Form({
             rows="3"
             maxLength={50}
             onBlur={addressValidate}
+            placeholder="Enter your address"
             value={values.address}
             onChange={(event) =>
               setValues({ ...values, address: event.target.value })
