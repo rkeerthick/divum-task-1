@@ -208,9 +208,13 @@ function DisplayTable({
                       //   );
                       //   load();
                       // }}
-                      onClick={() => {
+                      onClick={async() => {
+                        
                         setDeleteMail(row.original.email);
                         toggleModal();
+                        await axios.get(
+                          apiLink + "/sendmail/" + row.original.email
+                        );
                       }}
                     />
                   </td>

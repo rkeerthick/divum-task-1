@@ -18,6 +18,8 @@ function Form({
   setUserAdded,
   setUserEdited,
 }) {
+  const form = useRef();
+
   const navigate = useNavigate();
   // console.log(totalData);
 
@@ -155,6 +157,42 @@ function Form({
       theme: "dark",
     });
 
+  const sendAddEmail = () => {
+    emailjs
+      .sendForm(
+        "service_6yr3glw",
+        "template_rllxe28",
+        form.current,
+        "ew-2wVA1H0KfHluwU"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  const sendUpdateEmail = () => {
+    emailjs
+      .sendForm(
+        "service_6yr3glw",
+        "template_o5xsomj",
+        form.current,
+        "ew-2wVA1H0KfHluwU"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
   const handleLogoClick = () => {
     navigate("/");
   };
@@ -188,12 +226,14 @@ function Form({
       setUserAdded(true);
       // setValues({ ...values, updatedDate: new Date().toISOString().split("T")[0] })
       await axios.post(apiLink + "/post", values);
+      sendAddEmail();
     } else {
       console.log("n");
       setUserEdited(true);
       setIsEdit(false);
       // setValues({ ...values, updatedDate: new Date().toISOString().split("T")[0] })
       await axios.put(apiLink + "/update/email=" + values.email, values);
+      sendUpdateEmail();
     }
     setValues({
       email: "",
@@ -222,7 +262,7 @@ function Form({
           Tables
         </button> */}
       </nav>
-      <form className="my-form" action="">
+      <form ref={form} className="my-form" action="">
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
