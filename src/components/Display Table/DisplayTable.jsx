@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTable } from "react-table";
-import { COLUMNS } from "./columns";
+import { COLUMNS } from "../columns";
 import axios from "axios";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
@@ -39,7 +39,7 @@ function DisplayTable({
 
   // const [resultData, setResultData] = useState([]);
   console.log(resultData, "result data");
-  console.log("displaytable")
+  console.log("displaytable");
 
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => resultData, [resultData]);
@@ -84,9 +84,8 @@ function DisplayTable({
         theme: "dark",
       });
     }
-      setUserEdited(false);
-      setUserAdded(false);
-    
+    setUserEdited(false);
+    setUserAdded(false);
   }, []);
 
   const [modal, setModal] = useState(false);
@@ -209,9 +208,13 @@ function DisplayTable({
                       //   );
                       //   load();
                       // }}
-                      onClick={() => {
+                      onClick={async() => {
+                        
                         setDeleteMail(row.original.email);
                         toggleModal();
+                        await axios.get(
+                          apiLink + "/sendmail/" + row.original.email
+                        );
                       }}
                     />
                   </td>

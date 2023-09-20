@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import DisplayTable from "./DisplayTable";
-import Form from "./Form";
+import DisplayTable from "../Display Table/DisplayTable";
+import Form from "../Form/Form";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
@@ -26,49 +26,47 @@ function Routing() {
 
   const displayLoad = async () => {
     const result = await axios.get(apiLink + "/get10/0/10");
-    if(result != undefined) {
-    setTotalTenData(result.data);
-    setResultData(result.data.content);
-
+    if (result != undefined) {
+      setTotalTenData(result.data);
+      setResultData(result.data.content);
     }
   };
 
   const load = async () => {
     const result = await axios.get(apiLink + "/get");
     // return result;
-    if(result !== undefined)
-      setTotalData(result.data);
+    if (result !== undefined) setTotalData(result.data);
     // setResultData(result.data);
   };
 
   return (
     // <BrowserRouter>
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <DisplayTable
-              values={values}
-              setValues={setValues}
-              isEdit={isEdit}
-              setIsEdit={setIsEdit}
-              totalData={totalData}
-              setTotalData={setTotalData}
-              load={load}
-              resultData={resultData}
-              setResultData={setResultData}
-              userAdded={userAdded}
-              setUserAdded={setUserAdded}
-              userEdited={userEdited}
-              setUserEdited={setUserEdited}
-              displayLoad={displayLoad}
-              totalTenData={totalTenData}
-              setTotalTenData={setTotalTenData}
-            />
-          }
-        >
-          {/* <Route
+    <Routes>
+      <Route
+        exact
+        path="/"
+        element={
+          <DisplayTable
+            values={values}
+            setValues={setValues}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            totalData={totalData}
+            setTotalData={setTotalData}
+            load={load}
+            resultData={resultData}
+            setResultData={setResultData}
+            userAdded={userAdded}
+            setUserAdded={setUserAdded}
+            userEdited={userEdited}
+            setUserEdited={setUserEdited}
+            displayLoad={displayLoad}
+            totalTenData={totalTenData}
+            setTotalTenData={setTotalTenData}
+          />
+        }
+      >
+        {/* <Route
             path="/display_table"
             element={
               <DisplayTable
@@ -91,27 +89,27 @@ function Routing() {
               />
             }
           ></Route> */}
-        </Route>
-        <Route
-          exact
-          path="/form"
-          element={
-            <Form
-              values={values}
-              setValues={setValues}
-              isEdit={isEdit}
-              setIsEdit={setIsEdit}
-              totalData={totalData}
-              setTotalData={setTotalData}
-              load={load}
-              userAdded={userAdded}
-              setUserAdded={setUserAdded}
-              userEdited={userEdited}
-              setUserEdited={setUserEdited}
-            />
-          }
-        ></Route>
-      </Routes>
+      </Route>
+      <Route
+        exact
+        path="/form"
+        element={
+          <Form
+            values={values}
+            setValues={setValues}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            totalData={totalData}
+            setTotalData={setTotalData}
+            load={load}
+            userAdded={userAdded}
+            setUserAdded={setUserAdded}
+            userEdited={userEdited}
+            setUserEdited={setUserEdited}
+          />
+        }
+      ></Route>
+    </Routes>
     // </BrowserRouter>
   );
 }

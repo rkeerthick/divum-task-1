@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import emailjs from "@emailjs/browser";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,6 +18,8 @@ function Form({
   setUserAdded,
   setUserEdited,
 }) {
+  const form = useRef();
+
   const navigate = useNavigate();
   // console.log(totalData);
 
@@ -112,17 +115,15 @@ function Form({
   };
 
   const phoneNumberValidate = () => {
-    if (values.phoneNumber !== "") {
-      if (validMobileNo.test(values.phoneNumber) === false) {
-        setError({ ...error, phoneNumber: "Invalid phone number." });
-        return false;
-      }
-    } else {
+    if (values.phoneNumber === "") {
       setError({ ...error, phoneNumber: "Enter phone number" });
-      return false;
+    } else if (!validMobileNo.test(values.phoneNumber)) {
+      setError({ ...error, phoneNumber: "Invalid phone number." });
+    } else {
+      setError({ ...error, phoneNumber: "" });
+      return true;
     }
-    setError({ ...error, phoneNumber: "" });
-    return true;
+    return false;
   };
 
   const dateValidate = () => {
@@ -136,7 +137,7 @@ function Form({
   };
 
   const addressValidate = () => {
-    if (values.address.length < 1) {
+    if (values.address === "") {
       setError({ ...error, address: "Enter your address." });
       return false;
     }
@@ -156,6 +157,42 @@ function Form({
       theme: "dark",
     });
 
+  const sendAddEmail = () => {
+    emailjs
+      .sendForm(
+        "service_6yr3glw",
+        "template_rllxe28",
+        form.current,
+        "ew-2wVA1H0KfHluwU"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  const sendUpdateEmail = () => {
+    emailjs
+      .sendForm(
+        "service_6yr3glw",
+        "template_o5xsomj",
+        form.current,
+        "ew-2wVA1H0KfHluwU"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
   const handleLogoClick = () => {
     navigate("/");
   };
@@ -163,7 +200,11 @@ function Form({
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(error, "error");
+<<<<<<< HEAD:src/components/Form.jsx
     let status = true;
+=======
+    console.log(error.phoneNumber, "error-phonenumber");
+>>>>>>> 28fbd3a9c8d8e8a96cf7817473b8955f37f005d3:src/components/Form/Form.jsx
     if (
       !(
         
@@ -192,12 +233,14 @@ function Form({
       setUserAdded(true);
       // setValues({ ...values, updatedDate: new Date().toISOString().split("T")[0] })
       await axios.post(apiLink + "/post", values);
+      sendAddEmail();
     } else {
       console.log("n");
       setUserEdited(true);
       setIsEdit(false);
       // setValues({ ...values, updatedDate: new Date().toISOString().split("T")[0] })
       await axios.put(apiLink + "/update/email=" + values.email, values);
+      sendUpdateEmail();
     }
     setValues({
       email: "",
@@ -214,7 +257,7 @@ function Form({
     <div>
       <nav className="form-nav">
         <img
-          className="logo btn-pointer"
+          className="logo btn-  pointer"
           src="./Divum_Logo_Color.png"
           alt="Logo"
           onClick={handleLogoClick}
@@ -226,7 +269,7 @@ function Form({
           Tables
         </button> */}
       </nav>
-      <form className="my-form" action="">
+      <form ref={form} className="my-form" action="">
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -236,6 +279,7 @@ function Form({
             data-testid="email"
             readOnly={readOnly}
             value={values.email}
+            placeholder="Enter your email"
             onBlur={emailValidate}
             onChange={(event) => {
               setValues({ ...values, email: event.target.value });
@@ -250,6 +294,7 @@ function Form({
             name="first_name"
             data-testid="firstName"
             value={values.firstName}
+            placeholder="Enter you first name"
             onBlur={firstNameValidate}
             onChange={(event) =>
               setValues({ ...values, firstName: event.target.value })
@@ -265,6 +310,7 @@ function Form({
             name="last_name"
             data-testid="lastName"
             value={values.lastName}
+            placeholder="Enter your last name"
             onBlur={lastNameValidate}
             onChange={(event) => {
               setValues({ ...values, lastName: event.target.value });
@@ -274,18 +320,23 @@ function Form({
         </div>
         <div className="form-group">
           <label htmlFor="ph_no">Phone</label>
-
           <input
             type="text"
             name="ph_no"
             data-testid="phoneNumber"
             value={values.phoneNumber}
+            placeholder="Enter your phone number"
             maxLength={10}
             onBlur={phoneNumberValidate}
             onChange={(event) => {
               setValues({ ...values, phoneNumber: event.target.value });
+<<<<<<< HEAD:src/components/Form.jsx
+=======
+              // phoneNumberValidate();
+>>>>>>> 28fbd3a9c8d8e8a96cf7817473b8955f37f005d3:src/components/Form/Form.jsx
             }}
           />
+          {console.log("error", error.phoneNumber)}
           <p data-testid="phNo-error-msg">{error.phoneNumber}</p>
         </div>
         <div className="form-group">
@@ -297,6 +348,7 @@ function Form({
             name="dob"
             data-testid="dob"
             value={values.dob}
+            placeholder="Enter your DOB"
             onBlur={dateValidate}
             onChange={(event) =>
               setValues({ ...values, dob: event.target.value })
@@ -320,6 +372,7 @@ function Form({
             rows="3"
             maxLength={50}
             onBlur={addressValidate}
+            placeholder="Enter your address"
             value={values.address}
             onChange={(event) =>
               setValues({ ...values, address: event.target.value })
