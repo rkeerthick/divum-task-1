@@ -52,7 +52,14 @@ describe("form validation", () => {
       "Enter first name"
     );
 
-    // // // Test case 3
+    // Test case 3
+    fireEvent.change(firstName, { target: { value: "   " } });
+    fireEvent.click(submit);
+    expect(screen.getByTestId("firstName-error-msg").innerHTML).toBe(
+      "Enter only alphabets..."
+    );
+
+    // // // Test case 4
     fireEvent.change(firstName, { target: { value: "keerthick1" } });
     fireEvent.click(submit);
     expect(screen.getByTestId("firstName-error-msg").innerHTML).toBe(
@@ -93,26 +100,26 @@ describe("form validation", () => {
 
   test("Phone number validation", () => {
     render(<App />);
-    // const addBtn = screen.getByTestId("add-btn");
-    // fireEvent.click(addBtn);
     const email = screen.getByTestId("email");
     const firstName = screen.getByTestId("firstName");
     const lastName = screen.getByTestId("lastName");
     const phone = screen.getByTestId("phoneNumber");
     const submit = screen.getByTestId("submit");
+
     fireEvent.change(email, { target: { value: "keerthick@gmail.com" } });
     fireEvent.change(firstName, { target: { value: "Keerthick" } });
     fireEvent.change(lastName, { target: { value: "Ravikumar" } });
 
-    // // Test case 1
-    // fireEvent.change(phone, { target: { value: "9876543210" } });
-    // fireEvent.click(submit);
-    // expect(screen.getByTestId("phNo-error-msg").innerHTML).toBe("");
+    // Test case 1
+    fireEvent.change(phone, { target: { value: "9876543210" } });
+    fireEvent.click(submit);
+    expect(screen.getByTestId("phNo-error-msg").innerHTML).toBe("");
 
     // Test case 2
-    fireEvent.change(phone, { target: { value: "9876" } });
+    fireEvent.change(phone, { target: { value: "" } });
     fireEvent.click(submit);
-    expect(screen.getByTestId("phNo-error-msg").innerHTML).toBe(phone);
-    //expect(screen.getByTestId("phNo-error-msg").textContent).toBe("a");
+    expect(screen.getByTestId("phNo-error-msg").innerHTML).toBe(
+      "Enter phone number"
+    );
   });
 });

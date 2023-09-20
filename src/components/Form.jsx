@@ -163,18 +163,22 @@ function Form({
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(error, "error");
+    let status = true;
     if (
       !(
+        
+        phoneNumberValidate()&&
         emailValidate() &&
         firstNameValidate() &&
         lastNameValidate() &&
-        addressValidate() &&
-        phoneNumberValidate()
+        addressValidate() 
       )
     ) {
       notify();
       return;
     }
+
+
     console.log("ers ", error.email);
     if (error.email !== "") {
       alert("Error");
@@ -280,7 +284,6 @@ function Form({
             onBlur={phoneNumberValidate}
             onChange={(event) => {
               setValues({ ...values, phoneNumber: event.target.value });
-              // phoneNuamberValidate();
             }}
           />
           <p data-testid="phNo-error-msg">{error.phoneNumber}</p>
